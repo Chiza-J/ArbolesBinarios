@@ -71,14 +71,17 @@ class ArbolBinario {
     }
     private boolean buscarRecursivo(Nodo raiz, int valor){
         if (raiz == null){
+                    System.out.println("Valor no encontrado");
             return false;
         }
+        
         if (valor < raiz.valor){
             return buscarRecursivo(raiz.izquierda, valor);
         } else if (valor > raiz.valor){
             return buscarRecursivo(raiz.derecha,valor);
-        }
+        }        System.out.println("Valor encontrado "+ raiz.valor);
         return true;
+
     }
     
 }
