@@ -76,10 +76,13 @@ class ArbolBinario {
         }
         
         if (valor < raiz.valor){
+            System.out.println(raiz.valor);
             return buscarRecursivo(raiz.izquierda, valor);
         } else if (valor > raiz.valor){
+            System.out.println(raiz.valor);
             return buscarRecursivo(raiz.derecha,valor);
         }        System.out.println("Valor encontrado "+ raiz.valor);
+        System.out.println(raiz.altura);
         return true;
 
     }
