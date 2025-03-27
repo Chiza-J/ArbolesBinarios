@@ -86,5 +86,49 @@ class ArbolBinario {
         return true;
 
     }
+    
+    public void eliminar(int valor){
+        System.out.println("Intentando eliminar nodo:"+valor);
+        raiz = eliminarRecursivo(raiz, valor);
+    }
+    
+    private Nodo eliminarRecursivo(Nodo raiz, int valor){
+        if(raiz==null){
+            System.out.println("El valor no esta en el arbol");
+            return null;
+        }
+        if (valor < raiz.valor){
+            raiz.izquierda = eliminarRecursivo(raiz.izquierda, valor);
+        }
+        else if(valor >raiz.valor){
+            raiz.derecha = eliminarRecursivo(raiz.derecha, valor);
+        }
+        else{
+            System.out.println("Nodo eliminado: "+raiz.valor);
+            if (raiz.izquierda == null && raiz.derecha==null){
+                return null;
+            }
+            
+            if(raiz.izquierda == null){
+                return raiz.derecha;
+            } else if(raiz.derecha == null){
+                return raiz.izquierda;
+            }
+            
+            raiz.valor = obtenerMinimo(raiz.derecha);
+            raiz.derecha=eliminarRecursivo(raiz.derecha, raiz.valor);
+        }
+        
+        return raiz;
+    }
+    
+    private int obtenerMinimo(Nodo raiz){
+        int minimo = raiz.valor;
+        while(raiz.izquierda != null){
+            minimo = raiz.izquierda.valor;
+            raiz = raiz.izquierda;
+        }
+        return minimo;
+    }
 
 }
