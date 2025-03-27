@@ -1,0 +1,24 @@
+Valor no encontrado
+Insertado: 40
+Valor no encontrado
+Insertado: 10
+Valor no encontrado
+Insertado: 70
+Valor no encontrado
+Insertado: 30
+Valor no encontrado
+Insertado: 20
+Valor no encontrado
+Insertado: 50
+Valor no encontrado
+Insertado: 80
+Valor no encontrado
+Insertado: 90
+Valor encontrado 50 Altura: 3
+Intentando eliminar nodo:40
+Nodo encontrado a eliminar: 40
+Nodo encontrado a eliminar: 50
+Dato 40 eliminado del archivo
+Recorrido Inorden: 10 20 30 50 70 80 90 
+Recorrido Postorden: 20 30 10 90 80 70 50 
+Recorrido Preorden: 50 10 30 20 70 80 90 

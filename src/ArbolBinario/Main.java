@@ -14,27 +14,21 @@ public class Main {
     public static void main(String[] args) {
         ArbolBinario arbol = new ArbolBinario();
 // Insertamos algunos valores en el árbol
-        arbol.insertar(50);
+        arbol.cargarDesdeArchivo("/home/chiza/NetBeansProjects/Arboles/src/ArbolBinario/datos.txt");
+        arbol.insertar(40);
+        arbol.insertar(10);
+        arbol.insertar(70);
         arbol.insertar(30);
         arbol.insertar(20);
-        arbol.insertar(40);
-        arbol.insertar(70);
-        arbol.insertar(60);
+        arbol.insertar(50);
         arbol.insertar(80);
-        arbol.insertar(10);
-        arbol.buscar(10);
-        System.out.println("Recorrido en Inorden:");
+        arbol.insertar(90);
+        arbol.buscar(50);
+        arbol.eliminar(40);
         arbol.recorridoInorden();
-        arbol.eliminar(15);
-        arbol.buscar(10);
-        System.out.println("Recorrido en Preorden:");
-        arbol.recorridoPreorden(); // Raíz, Izquierda, Derecha
-        System.out.println();
-        System.out.println("Recorrido en Inorden:");
-        arbol.recorridoInorden(); // Izquierda, Raíz, Derecha
-        System.out.println();
-        System.out.println("Recorrido en Postorden:");
-        arbol.recorridoPostorden(); // Izquierda, Derecha, Raíz
-        System.out.println();
+        arbol.recorridoPostorden();
+        arbol.recorridoPreorden();
+        
+        
     }
 }
