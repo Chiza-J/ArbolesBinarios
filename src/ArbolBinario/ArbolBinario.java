@@ -10,19 +10,18 @@ class ArbolBinario {
     }
 
     public void insertar(int valor) {
-        raiz = insertarRecursivo(raiz, valor);
+        raiz = insertarRecursivo(raiz, valor, 1);
     }
 
-    private Nodo insertarRecursivo(Nodo nodo, int valor) {
+    private Nodo insertarRecursivo(Nodo nodo, int valor, int cont) {
         if (nodo == null) {
-            return new Nodo(valor);
+            return new Nodo(valor, cont);
         }
         if (valor < nodo.valor) {
-            nodo.izquierda = insertarRecursivo(nodo.izquierda, valor);
+            nodo.izquierda = insertarRecursivo(nodo.izquierda, valor, cont+1);
         } else if (valor > nodo.valor) {
-            nodo.derecha = insertarRecursivo(nodo.derecha, valor);
+            nodo.derecha = insertarRecursivo(nodo.derecha, valor,cont+1);
         }
-        nodo.actuAltura(nodo);
         return nodo;
     }
 // Recorrido en preorden (Raíz, Izquierda, Derecha)

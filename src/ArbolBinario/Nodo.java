@@ -6,9 +6,9 @@ class Nodo {
     int altura;
     Nodo izquierda, derecha;
 
-    public Nodo(int valor) {
+    public Nodo(int valor, int altura) {
         this.valor = valor;
-        this.altura = 0;
+        this.altura = altura;
         izquierda = derecha = null;
     }
     

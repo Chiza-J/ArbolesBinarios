@@ -25,7 +25,7 @@ public class Main {
         arbol.buscar(10);
         arbol.buscar(30);
         arbol.buscar(80);
-        arbol.buscar(15);
+        arbol.buscar(50);
         System.out.println("Recorrido en Preorden:");
         arbol.recorridoPreorden(); // Raíz, Izquierda, Derecha
         System.out.println();
