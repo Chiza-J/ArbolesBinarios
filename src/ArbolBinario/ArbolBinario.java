@@ -1,7 +1,6 @@
 package ArbolBinario;
 
 //carpleos
-
 class ArbolBinario {
 
     Nodo raiz;
@@ -9,7 +8,6 @@ class ArbolBinario {
     public ArbolBinario() {
         raiz = null;
     }
-
 
     public void insertar(int valor) {
         raiz = insertarRecursivo(raiz, valor);
@@ -24,6 +22,7 @@ class ArbolBinario {
         } else if (valor > nodo.valor) {
             nodo.derecha = insertarRecursivo(nodo.derecha, valor);
         }
+        nodo.actuAltura(nodo);
         return nodo;
     }
 // Recorrido en preorden (Raíz, Izquierda, Derecha)
@@ -65,27 +64,28 @@ class ArbolBinario {
             System.out.print(nodo.valor + " ");
         }
     }
-    
-    public boolean buscar(int valor){
-        return buscarRecursivo(raiz,valor);
+
+    public boolean buscar(int valor) {
+        return buscarRecursivo(raiz, valor);
     }
-    private boolean buscarRecursivo(Nodo raiz, int valor){
-        if (raiz == null){
-                    System.out.println("Valor no encontrado");
+
+    private boolean buscarRecursivo(Nodo raiz, int valor) {
+        if (raiz == null) {
+            System.out.println("Valor no encontrado");
             return false;
         }
-        
-        if (valor < raiz.valor){
+
+        if (valor < raiz.valor) {
             System.out.println(raiz.valor);
             return buscarRecursivo(raiz.izquierda, valor);
-        } else if (valor > raiz.valor){
+        } else if (valor > raiz.valor) {
             System.out.println(raiz.valor);
-            return buscarRecursivo(raiz.derecha,valor);
-        }        System.out.println("Valor encontrado "+ raiz.valor);
-        System.out.println(raiz.altura);
+            return buscarRecursivo(raiz.derecha, valor);
+        }
+        System.out.println("Valor encontrado " + raiz.valor);
+        System.out.println("Altura: "+raiz.altura);
         return true;
 
     }
-    
-}
 
+}

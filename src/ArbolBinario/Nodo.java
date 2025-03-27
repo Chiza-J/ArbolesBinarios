@@ -8,7 +8,21 @@ class Nodo {
 
     public Nodo(int valor) {
         this.valor = valor;
-        this.altura = 1;
+        this.altura = 0;
         izquierda = derecha = null;
+    }
+    
+    int Altura(Nodo key){
+        if (key == null)
+            return 0;
+        else
+            return key.altura;
+    }
+    
+    void actuAltura(Nodo key){
+        int l = Altura(key.izquierda);
+        int r = Altura(key.derecha);
+        
+        key.altura = Math.max(l, r)+1;
     }
 }
