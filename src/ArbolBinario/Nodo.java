@@ -1,14 +1,18 @@
 package ArbolBinario;
 
+import java.awt.Color;
+
 class Nodo {
 
     int valor;
     int altura;
     Nodo izquierda, derecha;
+    Color color;
 
     public Nodo(int valor, int altura) {
         this.valor = valor;
         this.altura = altura;
+        this.color = Color.WHITE;
         izquierda = derecha = null;
     }
     

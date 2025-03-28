@@ -65,7 +65,7 @@ class ArbolBinario {
     private void recorridoInordenRecursivo(Nodo nodo, StringBuilder resultado) {
         if (nodo != null) {
             recorridoInordenRecursivo(nodo.izquierda, resultado);
-            resultado.append(nodo.valor).append(" "); 
+            resultado.append(nodo.valor).append(" ");
             recorridoInordenRecursivo(nodo.derecha, resultado);
         }
     }
@@ -77,12 +77,11 @@ class ArbolBinario {
         guardarHistorial(resultado.toString());
     }
 
-
     private void recorridoPostordenRecursivo(Nodo nodo, StringBuilder resultado) {
         if (nodo != null) {
             recorridoPostordenRecursivo(nodo.izquierda, resultado);
             recorridoPostordenRecursivo(nodo.derecha, resultado);
-            resultado.append(nodo.valor).append(" "); 
+            resultado.append(nodo.valor).append(" ");
         }
     }
 
@@ -189,44 +188,78 @@ class ArbolBinario {
     public void eliminarDatoDelArchivo(int valor) {
         try {
             File archivo = new File("/home/chiza/NetBeansProjects/Arboles/src/ArbolBinario/datos.txt");
+            if (!archivo.exists()) {
+                System.out.println("Error: Archivo no encontrado");
+                return;
+            }
             StringBuilder contenidoNuevo = new StringBuilder();
-
             try (Scanner scanner = new Scanner(archivo)) {
                 while (scanner.hasNextLine()) {
                     String linea = scanner.nextLine();
-                    if (!linea.contains(String.valueOf(valor))) {
-                        contenidoNuevo.append(linea).append("\n");
+                    String[] valores = linea.split(",");
+                    for (String val : valores) {
+                        try {
+                            if (Integer.parseInt(val.trim()) != valor) {
+                                contenidoNuevo.append(val).append(",");
+                            }
+                        } catch (NumberFormatException e) {
+                            System.out.println("Dato no válido: " + val);
+                        }
                     }
                 }
+            }
+            if (contenidoNuevo.length() > 0) {
+                contenidoNuevo.setLength(contenidoNuevo.length() - 1);
             }
 
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(archivo))) {
                 writer.write(contenidoNuevo.toString());
             }
-            guardarHistorial("Dato " + valor + " eliminado del archivo");
 
+            guardarHistorial("Dato " + valor + " eliminado del archivo");
         } catch (IOException e) {
-            System.out.println("Error al eliminar dato del archivo");
+            System.out.println("Error al eliminar dato del archivo: " + e.getMessage());
         }
     }
 
     public void insertarDatoEnArchivo(int valor) {
         try {
             File archivo = new File("/home/chiza/NetBeansProjects/Arboles/src/ArbolBinario/datos.txt");
-
-            // Si el archivo no existe, lo creamos
             if (!archivo.exists()) {
                 archivo.createNewFile();
             }
 
-            // Escribimos el nuevo valor al final del archivo
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter(archivo, true))) {
-                // Puedes cambiar el formato aquí dependiendo de cómo quieras guardar los datos
-                writer.write(valor + "\n"); // Cada valor en una nueva línea
+            StringBuilder contenidoActual = new StringBuilder();
+            try (Scanner scanner = new Scanner(archivo)) {
+                if (scanner.hasNextLine()) {
+                    contenidoActual.append(scanner.nextLine());
+                }
             }
 
+            String[] valoresExistentes = contenidoActual.toString().split(",");
+            for (String val : valoresExistentes) {
+                if (!val.trim().isEmpty()) { // Verifica que no sea vacío
+                    try {
+                        if (Integer.parseInt(val.trim()) == valor) {
+                            System.out.println("El valor ya existe en el archivo: " + valor);
+                            return;
+                        }
+                    } catch (NumberFormatException e) {
+                        System.out.println("Dato no válido: " + val);
+                    }
+                }
+            }
+
+            if (contenidoActual.length() > 0 && contenidoActual.charAt(contenidoActual.length() - 1) != ',') {
+                contenidoActual.append(",");
+            }
+
+            contenidoActual.append(valor);
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(archivo))) {
+                writer.write(contenidoActual.toString());
+            }
         } catch (IOException e) {
-            System.out.println("Error al insertar dato en el archivo");
+            System.out.println("Error al insertar dato en el archivo: " + e.getMessage());
         }
     }
 
