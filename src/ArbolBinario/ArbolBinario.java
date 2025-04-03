@@ -2,6 +2,8 @@ package ArbolBinario;
 
 //carpleos
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 class ArbolBinario {
@@ -15,32 +17,34 @@ class ArbolBinario {
     }
 
     public void insertar(int valor) {
-
         if (buscar(valor)) {
-            guardarHistorial("El valor " + valor + " ya existe en el árbol. No se insertará.");
-            System.out.println("El valor " + valor + " ya existe en el árbol.");
+            guardarHistorial("El valor " + valor + " ya existe en el árbol.");
         } else {
-
-            raiz = insertarRecursivo(raiz, valor, 1);
+            List<String> rotaciones = new ArrayList<>();
+            raiz = insertarRecursivo(raiz, valor, rotaciones);
+            for (String rotacion : rotaciones) {
+                guardarHistorial(rotacion);
+            }
             guardarHistorial("Insertado: " + valor);
-
             insertarDatoEnArchivo(valor);
         }
     }
 
-    private Nodo insertarRecursivo(Nodo nodo, int valor, int cont) {
+    private Nodo insertarRecursivo(Nodo nodo, int valor, List<String> rotaciones) {
         if (nodo == null) {
-            return new Nodo(valor, cont);
+            return new Nodo(valor);
         }
         if (valor < nodo.valor) {
-            nodo.izquierda = insertarRecursivo(nodo.izquierda, valor, cont + 1);
+            nodo.izquierda = insertarRecursivo(nodo.izquierda, valor, rotaciones);
         } else if (valor > nodo.valor) {
-            nodo.derecha = insertarRecursivo(nodo.derecha, valor, cont + 1);
+            nodo.derecha = insertarRecursivo(nodo.derecha, valor, rotaciones);
+        } else {
+            return nodo;
         }
-        return nodo;
+        return nodo.balancearArbol(nodo, rotaciones);
     }
-// Recorrido en preorden (Raíz, Izquierda, Derecha)
 
+// Recorrido en preorden (Raíz, Izquierda, Derecha)
     public void recorridoPreorden() {
         StringBuilder resultado = new StringBuilder("Recorrido Preorden: ");
         recorridoPreordenRecursivo(raiz, resultado);
@@ -86,69 +90,73 @@ class ArbolBinario {
     }
 
     public boolean buscar(int valor) {
-        return buscarRecursivo(raiz, valor);
+        List<Integer> camino = new ArrayList<>();
+        boolean encontrado = buscarRecursivo(raiz, valor, camino);
+        if (encontrado) {
+            guardarHistorial("Búsqueda exitosa: " + valor
+                    + " | Profundidad: " + camino.size()
+                    + " | Camino: " + camino);
+        } else {
+            guardarHistorial("Búsqueda fallida: " + valor);
+        }
+        return encontrado;
     }
 
-    private boolean buscarRecursivo(Nodo raiz, int valor) {
-        if (raiz == null) {
-            guardarHistorial("Valor no encontrado");
+    private boolean buscarRecursivo(Nodo nodo, int valor, List<Integer> camino) {
+        if (nodo == null) {
             return false;
         }
 
-        if (valor < raiz.valor) {
-            System.out.println(raiz.valor);
-            return buscarRecursivo(raiz.izquierda, valor);
-        } else if (valor > raiz.valor) {
-            System.out.println(raiz.valor);
-            return buscarRecursivo(raiz.derecha, valor);
+        camino.add(nodo.valor);
+
+        if (valor == nodo.valor) {
+            return true;
+        } else if (valor < nodo.valor) {
+            return buscarRecursivo(nodo.izquierda, valor, camino);
+        } else {
+            return buscarRecursivo(nodo.derecha, valor, camino);
         }
-        guardarHistorial("Valor encontrado " + raiz.valor + " Altura: " + raiz.altura);
-
-        return true;
-
     }
-
     public void eliminar(int valor) {
-        guardarHistorial("Intentando eliminar nodo:" + valor);
-        raiz = eliminarRecursivo(raiz, valor);
-        eliminarDatoDelArchivo(valor);
+        List<String> rotaciones = new ArrayList<>();
+        raiz = eliminarRecursivo(raiz, valor, rotaciones);
+
+        // Registrar rotaciones en el historial
+        for (String rotacion : rotaciones) {
+            guardarHistorial("Rotación: " + rotacion);
+        }
+        guardarHistorial("Eliminado: " + valor);
     }
 
-    private Nodo eliminarRecursivo(Nodo raiz, int valor) {
-        if (raiz == null) {
-            guardarHistorial("El valor no esta en el arbol");
+    private Nodo eliminarRecursivo(Nodo nodo, int valor, List<String> rotaciones) {
+        if (nodo == null) {
+            guardarHistorial("Valor no encontrado: " + valor);
             return null;
         }
-        if (valor < raiz.valor) {
-            raiz.izquierda = eliminarRecursivo(raiz.izquierda, valor);
-        } else if (valor > raiz.valor) {
-            raiz.derecha = eliminarRecursivo(raiz.derecha, valor);
+        if (valor < nodo.valor) {
+            nodo.izquierda = eliminarRecursivo(nodo.izquierda, valor, rotaciones);
+        } else if (valor > nodo.valor) {
+            nodo.derecha = eliminarRecursivo(nodo.derecha, valor, rotaciones);
         } else {
-            guardarHistorial("Nodo encontrado a eliminar: " + raiz.valor);
-            if (raiz.izquierda == null && raiz.derecha == null) {
-                return null;
+            // Caso 1: Nodo hoja o con un hijo
+            if (nodo.izquierda == null) {
+                return nodo.derecha;
             }
-
-            if (raiz.izquierda == null) {
-                return raiz.derecha;
-            } else if (raiz.derecha == null) {
-                return raiz.izquierda;
+            if (nodo.derecha == null) {
+                return nodo.izquierda;
             }
-
-            raiz.valor = obtenerMinimo(raiz.derecha);
-            raiz.derecha = eliminarRecursivo(raiz.derecha, raiz.valor);
+            // Caso 2: Nodo con dos hijos
+            nodo.valor = obtenerMinimo(nodo.derecha);
+            nodo.derecha = eliminarRecursivo(nodo.derecha, nodo.valor, rotaciones);
         }
-
-        return raiz;
+        return nodo.balancearArbol(nodo, rotaciones);
     }
 
-    private int obtenerMinimo(Nodo raiz) {
-        int minimo = raiz.valor;
-        while (raiz.izquierda != null) {
-            minimo = raiz.izquierda.valor;
-            raiz = raiz.izquierda;
+    private int obtenerMinimo(Nodo nodo) {
+        while (nodo.izquierda != null) {
+            nodo = nodo.izquierda;
         }
-        return minimo;
+        return nodo.valor;
     }
 
     public void cargarDesdeArchivo(String nombreArchivo) {
@@ -177,7 +185,7 @@ class ArbolBinario {
         }
     }
 
-    private void guardarHistorial(String mensaje) {
+    public void guardarHistorial(String mensaje) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(historialArchivo, true))) {
             writer.write(mensaje + "\n");
         } catch (IOException e) {

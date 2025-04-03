@@ -14,12 +14,13 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
+import ArbolBinario.*;
 
 class ArbolPanel extends JPanel {
 
     private ArbolBinario arbol;
     private List<Nodo> recorridoNodos;
-    private int indiceActual = -1; 
+    private int indiceActual = -1;
 
     public ArbolPanel(ArbolBinario arbol) {
         this.arbol = arbol;
@@ -40,7 +41,7 @@ class ArbolPanel extends JPanel {
 
                     if (respuesta == JOptionPane.YES_OPTION) {
                         arbol.eliminar(valor);
-                        repaint(); 
+                        repaint();
                     }
                 }
             }
@@ -111,16 +112,16 @@ class ArbolPanel extends JPanel {
         Timer timer = new Timer(1000, e -> {
             indiceActual++;
             if (indiceActual < recorridoNodos.size()) {
-                recorridoNodos.get(indiceActual).color = Color.RED; 
+                recorridoNodos.get(indiceActual).color = Color.RED;
                 repaint();
             } else {
                 ((Timer) e.getSource()).stop();
-                mostrarRecorridoPopUp(tipoRecorrido); 
+                mostrarRecorridoPopUp(tipoRecorrido);
             }
         });
 
-        indiceActual = -1; 
-        timer.start(); 
+        indiceActual = -1;
+        timer.start();
     }
 
     private void mostrarRecorridoPopUp(String tipoRecorrido) {
@@ -128,6 +129,10 @@ class ArbolPanel extends JPanel {
         for (Nodo nodo : recorridoNodos) {
             recorrido.append(nodo.valor).append(" ");
         }
+
+        // Guardar en el historial
+        arbol.guardarHistorial(recorrido.toString());
+
         JOptionPane.showMessageDialog(this, recorrido.toString(), "Recorrido Finalizado", JOptionPane.INFORMATION_MESSAGE);
         for (Nodo nodo : recorridoNodos) {
             nodo.color = Color.WHITE;
@@ -136,35 +141,49 @@ class ArbolPanel extends JPanel {
     }
 
     public void buscarNodoConPopUp(int valor) {
-        Nodo nodoBuscado = buscarNodoRecursivo(arbol.raiz, valor);
+        int[] contadorVisitados = {0};
+        Object[] resultado = buscarNodoRecursivo(arbol.raiz, valor, 0, contadorVisitados);
+        Nodo nodoBuscado = (Nodo) resultado[0];
+        int profundidad = (int) resultado[1];
+
         if (nodoBuscado != null) {
+            String mensajeHistorial = String.format("Búsqueda exitosa: %d | Altura: %d",
+                    valor, profundidad);
+            arbol.guardarHistorial(mensajeHistorial);
+
             nodoBuscado.color = Color.GREEN;
             repaint();
             JOptionPane.showMessageDialog(this,
-                    "Valor encontrado: " + nodoBuscado.valor + "\nAltura del nodo: " + nodoBuscado.altura,
+                    "Valor encontrado: " + nodoBuscado.valor
+                    + "\nAltura del nodo: " + profundidad,
                     "Búsqueda Exitosa",
                     JOptionPane.INFORMATION_MESSAGE);
             nodoBuscado.color = Color.WHITE;
             repaint();
         } else {
+            String mensajeHistorial = String.format("Búsqueda fallida: %d", valor);
+            arbol.guardarHistorial(mensajeHistorial);
+
             JOptionPane.showMessageDialog(this,
-                    "El valor " + valor + " no fue encontrado en el árbol.",
+                    "El valor " + valor + " no fue encontrado.",
                     "Búsqueda Fallida",
                     JOptionPane.ERROR_MESSAGE);
         }
     }
 
-    private Nodo buscarNodoRecursivo(Nodo nodo, int valor) {
+    private Object[] buscarNodoRecursivo(Nodo nodo, int valor, int profundidadActual, int[] contadorVisitados) {
+        contadorVisitados[0]++;
+
         if (nodo == null) {
-            return null;
+            return new Object[]{null, -1};
         }
 
-        if (valor < nodo.valor) {
-            return buscarNodoRecursivo(nodo.izquierda, valor);
-        } else if (valor > nodo.valor) {
-            return buscarNodoRecursivo(nodo.derecha, valor);
+        if (valor == nodo.valor) {
+            return new Object[]{nodo, profundidadActual};
+        } else if (valor < nodo.valor) {
+            return buscarNodoRecursivo(nodo.izquierda, valor, profundidadActual + 1, contadorVisitados);
         } else {
-            return nodo; 
+            return buscarNodoRecursivo(nodo.derecha, valor, profundidadActual + 1, contadorVisitados);
         }
     }
 
@@ -180,7 +199,7 @@ class ArbolPanel extends JPanel {
 
     private void dibujarArbol(Graphics2D g, Nodo nodo, int x, int y, int separacion) {
         if (nodo != null) {
-            int radioNodo = 40; 
+            int radioNodo = 40;
             int ajusteLinea = radioNodo / 2;
             // Dibujar líneas hacia los hijos
             g.setColor(Color.BLACK);
@@ -215,7 +234,7 @@ class ArbolPanel extends JPanel {
 
     private Nodo detectarNodo(int mouseX, int mouseY, Nodo nodo, int x, int y, int separacion) {
         if (nodo != null) {
-            int radioNodo = 40; 
+            int radioNodo = 40;
             int distanciaX = mouseX - x;
             int distanciaY = mouseY - y;
             // Comprobar si el clic está dentro del nodo

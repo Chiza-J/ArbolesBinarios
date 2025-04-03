@@ -58,7 +58,6 @@ public class ArbolFrm extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(800, 600));
         setMinimumSize(new java.awt.Dimension(800, 600));
-        setPreferredSize(new java.awt.Dimension(800, 600));
 
         background.setMaximumSize(new java.awt.Dimension(800, 600));
         background.setMinimumSize(new java.awt.Dimension(800, 600));
