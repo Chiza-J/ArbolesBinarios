@@ -103,6 +103,9 @@
         </Component>
         <Component class="javax.swing.JButton" name="btnInsertar">
           <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="cc" red="cc" type="rgb"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Insertar"/>
           </Properties>
           <Events>
@@ -116,6 +119,9 @@
         </Component>
         <Component class="javax.swing.JButton" name="btnBuscar">
           <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="cc" red="cc" type="rgb"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Buscar"/>
           </Properties>
           <Events>
@@ -146,6 +152,9 @@
         </Component>
         <Component class="javax.swing.JButton" name="btnPre">
           <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="cc" red="cc" type="rgb"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Pre-Orden"/>
           </Properties>
           <Events>
@@ -159,6 +168,9 @@
         </Component>
         <Component class="javax.swing.JButton" name="btnIn">
           <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="cc" red="cc" type="rgb"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="In-Orden"/>
           </Properties>
           <Events>
@@ -172,6 +184,9 @@
         </Component>
         <Component class="javax.swing.JButton" name="btnPost">
           <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="cc" red="cc" type="rgb"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Post-Orden"/>
           </Properties>
           <Events>

@@ -84,6 +84,7 @@ public class ArbolFrm extends javax.swing.JFrame {
         background.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 10, -1, -1));
         background.add(txtValor, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 10, 130, -1));
 
+        btnInsertar.setBackground(new java.awt.Color(204, 204, 255));
         btnInsertar.setText("Insertar");
         btnInsertar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -92,6 +93,7 @@ public class ArbolFrm extends javax.swing.JFrame {
         });
         background.add(btnInsertar, new org.netbeans.lib.awtextra.AbsoluteConstraints(621, 40, 170, -1));
 
+        btnBuscar.setBackground(new java.awt.Color(204, 204, 255));
         btnBuscar.setText("Buscar");
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -104,6 +106,7 @@ public class ArbolFrm extends javax.swing.JFrame {
         jLabel2.setText("Valor: ");
         background.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 150, -1, -1));
 
+        btnPre.setBackground(new java.awt.Color(204, 204, 255));
         btnPre.setText("Pre-Orden");
         btnPre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -112,6 +115,7 @@ public class ArbolFrm extends javax.swing.JFrame {
         });
         background.add(btnPre, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 290, 170, 30));
 
+        btnIn.setBackground(new java.awt.Color(204, 204, 255));
         btnIn.setText("In-Orden");
         btnIn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -120,6 +124,7 @@ public class ArbolFrm extends javax.swing.JFrame {
         });
         background.add(btnIn, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 330, 170, 30));
 
+        btnPost.setBackground(new java.awt.Color(204, 204, 255));
         btnPost.setText("Post-Orden");
         btnPost.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
